@@ -5,3 +5,5 @@ dist/
 coverage/
 .vscode/
 .env
+WORK_ORDER_KEY
+WORKER_API_KEY

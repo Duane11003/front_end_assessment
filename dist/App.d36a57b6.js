@@ -28285,21 +28285,76 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react-dom.development.js');
 }
-},{"./cjs/react-dom.development.js":"../node_modules/react-dom/cjs/react-dom.development.js"}],"App.js":[function(require,module,exports) {
+},{"./cjs/react-dom.development.js":"../node_modules/react-dom/cjs/react-dom.development.js"}],"../WORK_ORDER_KEY.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+const WORK_ORDER_KEY = `https://www.hatchways.io/api/assessment/work_orders`;
+var _default = WORK_ORDER_KEY;
+exports.default = _default;
+},{}],"Components/OrdersResults.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _WORK_ORDER_KEY = _interopRequireDefault(require("../../WORK_ORDER_KEY"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function OrdersResults() {
+  const [error, setError] = (0, _react.useState)(null);
+  const [loading, setLoading] = (0, _react.useState)(true);
+  const [workOrder, setWorkOrder] = (0, _react.useState)(null);
+  const [workerID, setWorkerID] = (0, _react.useState)(null);
+  const [workerName, setWorkerName] = (0, _react.useState)(null);
+  const [workerCompany, setWorkerCompany] = (0, _react.useState)(null);
+  (0, _react.useEffect)(() => {
+    fetch(_WORK_ORDER_KEY.default).then(res => res.json()).then(response => {
+      setWorkOrder(response.orders);
+      setError(false);
+      setLoading(false);
+    }).catch(err => {
+      setError(true);
+      setLoading(false);
+    });
+  }, []);
+  console.log(workOrder);
+  if (loading === true) return /*#__PURE__*/_react.default.createElement("h3", null, "Loading...");
+  if (error) return /*#__PURE__*/_react.default.createElement("p", null, "Error fetching workers");
+  return /*#__PURE__*/_react.default.createElement(_react.Fragment, null, /*#__PURE__*/_react.default.createElement("div", null));
+}
+
+var _default = OrdersResults;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","../../WORK_ORDER_KEY":"../WORK_ORDER_KEY.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
 
 var _reactDom = _interopRequireDefault(require("react-dom"));
 
+var _OrdersResults = _interopRequireDefault(require("./Components/OrdersResults"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function App() {
-  return /*#__PURE__*/_react.default.createElement("p", null, "Hello World!!!!");
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_OrdersResults.default, null));
 }
 
 _reactDom.default.render( /*#__PURE__*/_react.default.createElement(App, null), document.getElementById("root"));
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./Components/OrdersResults":"Components/OrdersResults.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -28327,7 +28382,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49879" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55446" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
