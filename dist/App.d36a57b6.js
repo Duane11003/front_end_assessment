@@ -28318,22 +28318,41 @@ function OrdersResults() {
   const [loading, setLoading] = (0, _react.useState)(true);
   const [workOrder, setWorkOrder] = (0, _react.useState)(null);
   const [workerID, setWorkerID] = (0, _react.useState)(null);
-  const [workerName, setWorkerName] = (0, _react.useState)(null);
-  const [workerCompany, setWorkerCompany] = (0, _react.useState)(null);
-  (0, _react.useEffect)(() => {
-    fetch(_WORK_ORDER_KEY.default).then(res => res.json()).then(response => {
+  const [workerName, setWorkerName] = (0, _react.useState)([]);
+  const [workerCompany, setWorkerCompany] = (0, _react.useState)([]);
+
+  const getWorkOrders = async () => {
+    await fetch(_WORK_ORDER_KEY.default).then(res => res.json()).then(response => {
       setWorkOrder(response.orders);
       setError(false);
       setLoading(false);
     }).catch(err => {
+      console.log(err);
       setError(true);
       setLoading(false);
     });
+  };
+
+  (0, _react.useEffect)(() => {
+    getWorkOrders();
   }, []);
-  console.log(workOrder);
+  console.log(workOrder, "is the current work orders state ");
   if (loading === true) return /*#__PURE__*/_react.default.createElement("h3", null, "Loading...");
   if (error) return /*#__PURE__*/_react.default.createElement("p", null, "Error fetching workers");
-  return /*#__PURE__*/_react.default.createElement(_react.Fragment, null, /*#__PURE__*/_react.default.createElement("div", null));
+  const mappedWorkOrders = workOrder.map(({
+    deadline,
+    description,
+    id,
+    name,
+    workerId
+  }) => {
+    return /*#__PURE__*/_react.default.createElement("div", {
+      className: "workOrderContainer"
+    }, /*#__PURE__*/_react.default.createElement("li", {
+      key: id
+    }, /*#__PURE__*/_react.default.createElement("h3", null, "Work Order: ", id), /*#__PURE__*/_react.default.createElement("p", null, description), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("p", null, "Worker Id: ", workerId)), /*#__PURE__*/_react.default.createElement("p", null, deadline)));
+  });
+  return /*#__PURE__*/_react.default.createElement(_react.Fragment, null, mappedWorkOrders);
 }
 
 var _default = OrdersResults;
@@ -28382,7 +28401,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55446" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49498" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
