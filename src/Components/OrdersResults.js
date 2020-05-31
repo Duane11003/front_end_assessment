@@ -16,6 +16,7 @@ function OrdersResults() {
         setWorkOrder(response.orders);
         setError(false);
         setLoading(false);
+        console.log(response.orders);
       })
       .catch((err) => {
         console.log(err);
@@ -28,15 +29,13 @@ function OrdersResults() {
     getWorkOrders();
   }, []);
 
-  console.log(workOrder, "is the current work orders state ");
-
   if (loading === true) return <h3>Loading...</h3>;
   if (error) return <p>Error fetching workers</p>;
 
   const mappedWorkOrders = workOrder.map(
     ({ deadline, description, id, name, workerId }) => {
       return (
-        <div className="workOrderContainer">
+        <div key={id} className="workOrderContainer">
           <li key={id}>
             <h3>Work Order: {id}</h3>
             <p>{description}</p>
@@ -50,7 +49,18 @@ function OrdersResults() {
     }
   );
 
-  return <Fragment>{mappedWorkOrders}</Fragment>;
+  return (
+    <Fragment>
+      <div>
+        <input
+         placeholder='Worker Name'
+         type='text'
+        >
+        </input>
+      <ul className='unorderedList'>{mappedWorkOrders}</ul>
+      </div>
+    </Fragment>
+  );
 }
 
 export default OrdersResults;

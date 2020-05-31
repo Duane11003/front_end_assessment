@@ -28326,6 +28326,7 @@ function OrdersResults() {
       setWorkOrder(response.orders);
       setError(false);
       setLoading(false);
+      console.log(response.orders);
     }).catch(err => {
       console.log(err);
       setError(true);
@@ -28336,7 +28337,6 @@ function OrdersResults() {
   (0, _react.useEffect)(() => {
     getWorkOrders();
   }, []);
-  console.log(workOrder, "is the current work orders state ");
   if (loading === true) return /*#__PURE__*/_react.default.createElement("h3", null, "Loading...");
   if (error) return /*#__PURE__*/_react.default.createElement("p", null, "Error fetching workers");
   const mappedWorkOrders = workOrder.map(({
@@ -28347,12 +28347,18 @@ function OrdersResults() {
     workerId
   }) => {
     return /*#__PURE__*/_react.default.createElement("div", {
+      key: id,
       className: "workOrderContainer"
     }, /*#__PURE__*/_react.default.createElement("li", {
       key: id
     }, /*#__PURE__*/_react.default.createElement("h3", null, "Work Order: ", id), /*#__PURE__*/_react.default.createElement("p", null, description), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("p", null, "Worker Id: ", workerId)), /*#__PURE__*/_react.default.createElement("p", null, deadline)));
   });
-  return /*#__PURE__*/_react.default.createElement(_react.Fragment, null, mappedWorkOrders);
+  return /*#__PURE__*/_react.default.createElement(_react.Fragment, null, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("input", {
+    placeholder: "Worker Name",
+    type: "text"
+  }), /*#__PURE__*/_react.default.createElement("ul", {
+    className: "unorderedList"
+  }, mappedWorkOrders)));
 }
 
 var _default = OrdersResults;
@@ -28369,7 +28375,9 @@ var _OrdersResults = _interopRequireDefault(require("./Components/OrdersResults"
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function App() {
-  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_OrdersResults.default, null));
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/_react.default.createElement(_OrdersResults.default, null));
 }
 
 _reactDom.default.render( /*#__PURE__*/_react.default.createElement(App, null), document.getElementById("root"));
@@ -28401,7 +28409,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49498" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49548" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

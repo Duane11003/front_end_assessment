@@ -5,7 +5,7 @@ import OrdersResults from './Components/OrdersResults'
 
 function App() {
     return (
-        <div>
+        <div className='container'>
             <OrdersResults />
         </div>
     )
