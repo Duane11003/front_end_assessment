@@ -30087,8 +30087,8 @@ function OrdersResults() {
   const [workerCompany, setWorkerCompany] = (0, _react.useState)([]);
   const [workerImage, setWorkerImage] = (0, _react.useState)("");
 
-  const getWorkOrders = () => {
-    _axios.default.get(_WORK_ORDER_KEY.default).then(response => {
+  const getWorkOrders = async () => {
+    await _axios.default.get(_WORK_ORDER_KEY.default).then(response => {
       setWorkOrder(response.data.orders);
       setLoading(false);
       setError(false);
@@ -30100,37 +30100,32 @@ function OrdersResults() {
 
   (0, _react.useEffect)(() => {
     getWorkOrders();
-  }, []);
+  }, []); // const mappedWorkOrders = workOrder.map(
+  //   ({ deadline, description, id, workerId }) => {
+  //     axios
+  //       .get(`https://www.hatchways.io/api/assessment/workers/${workerId}`)
+  //       .then((response) => {
+  //         setWorkerName(response.data.name);
+  //         setWorkerCompany(response.data.company);
+  //         setWorkerImage(response.data.image);
+  //       });
+  //     <li key={id}>
+  //       <h2>Work Order: {id}</h2>
+  //       <p>Description: {description}</p>
+  //       <p>Deadline: {deadline}</p>
+  //       <p>Worker: {workerName}</p>
+  //       <p>{workerCompany}</p>
+  //     </li>;
+  //   }
+  // );
 
-  const mappedWorkOrders = () => {
-    workOrder.map(({
-      deadline,
-      description,
-      id,
-      workerId
-    }) => {
-      _axios.default.get(`https://www.hatchways.io/api/assessment/workers/${workerId}`).then(response => {
-        setWorkerName(response.data.name);
-        setWorkerCompany(response.data.company);
-        setWorkerImage(response.data.image);
-      });
-
-      /*#__PURE__*/
-      _react.default.createElement("li", {
-        key: id
-      }, /*#__PURE__*/_react.default.createElement("h2", null, "Work Order: ", id), /*#__PURE__*/_react.default.createElement("p", null, "Description: ", description), /*#__PURE__*/_react.default.createElement("p", null, "Deadline: ", deadline), /*#__PURE__*/_react.default.createElement("p", null, "Worker: ", workerName), /*#__PURE__*/_react.default.createElement("p", null, workerCompany));
-    });
-  };
-
+  console.log(workOrder, "is the work order array");
   if (loading === true) return /*#__PURE__*/_react.default.createElement("h3", null, "Loading...");
   if (error) return /*#__PURE__*/_react.default.createElement("p", null, "Error fetching workers");
-  console.log(workOrder, "is the work order array");
   return /*#__PURE__*/_react.default.createElement(_react.Fragment, null, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("input", {
     placeholder: "Worker Name",
     type: "text"
-  }), /*#__PURE__*/_react.default.createElement("ul", {
-    className: "unorderedList"
-  }, mappedWorkOrders)));
+  })));
 }
 
 var _default = OrdersResults;
@@ -30181,7 +30176,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55797" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58270" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
