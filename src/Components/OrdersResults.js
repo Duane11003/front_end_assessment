@@ -5,9 +5,10 @@ function OrdersResults() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [workOrder, setWorkOrder] = useState(null);
-  const [workerID, setWorkerID] = useState(null);
+  const [workerID, setWorkerID] = useState([]);
   const [workerName, setWorkerName] = useState([]);
   const [workerCompany, setWorkerCompany] = useState([]);
+  const [input, setInput] = useState("");
 
   const getWorkOrders = async () => {
     await fetch(WORK_ORDER_KEY)
@@ -28,6 +29,12 @@ function OrdersResults() {
   useEffect(() => {
     getWorkOrders();
   }, []);
+
+  const filterResults = (input, id) => {
+    console.log(input)
+    const filteredArr = workOrder.filter((input) => input.id !== id)
+    setWorkOrder(filteredArr)
+  };
 
   if (loading === true) return <h3>Loading...</h3>;
   if (error) return <p>Error fetching workers</p>;
@@ -52,12 +59,21 @@ function OrdersResults() {
   return (
     <Fragment>
       <div>
-        <input
-         placeholder='Worker Name'
-         type='text'
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            filterResults(input, workerID);
+          }}
         >
-        </input>
-      <ul className='unorderedList'>{mappedWorkOrders}</ul>
+          <input
+            placeholder="Worker Name"
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+          ></input>
+          <button className='btn' type="submit">Submit</button>
+        </form>
+        <ul className="unorderedList">{mappedWorkOrders}</ul>
       </div>
     </Fragment>
   );
