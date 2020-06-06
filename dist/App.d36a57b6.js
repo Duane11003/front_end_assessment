@@ -28295,6 +28295,16 @@ exports.default = void 0;
 const WORK_ORDER_KEY = `https://www.hatchways.io/api/assessment/work_orders`;
 var _default = WORK_ORDER_KEY;
 exports.default = _default;
+},{}],"../WORKER_API_KEY.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+const WORKER_API_KEY = `https://www.hatchways.io/api/assessment/workers/`;
+var _default = WORKER_API_KEY;
+exports.default = _default;
 },{}],"Components/OrdersResults.js":[function(require,module,exports) {
 "use strict";
 
@@ -28307,6 +28317,8 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _WORK_ORDER_KEY = _interopRequireDefault(require("../../WORK_ORDER_KEY"));
 
+var _WORKER_API_KEY = _interopRequireDefault(require("../../WORKER_API_KEY"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
@@ -28318,6 +28330,7 @@ function OrdersResults() {
   const [loading, setLoading] = (0, _react.useState)(true);
   const [workOrder, setWorkOrder] = (0, _react.useState)(null);
   const [workerID, setWorkerID] = (0, _react.useState)([]);
+  const [workers, setWorkers] = (0, _react.useState)([]);
   const [workerName, setWorkerName] = (0, _react.useState)([]);
   const [workerCompany, setWorkerCompany] = (0, _react.useState)([]);
   const [input, setInput] = (0, _react.useState)("");
@@ -28327,7 +28340,16 @@ function OrdersResults() {
       setWorkOrder(response.orders);
       setError(false);
       setLoading(false);
-      console.log(response.orders);
+      const workerIds = response.orders.map(({
+        workerId
+      }) => {
+        return workerId;
+      });
+      return workerIds;
+    }).then(workerIds => {
+      workerIds.map(item => {
+        fetch(`${_WORKER_API_KEY.default}${item}`).then(res => res.json()).then(res => setWorkers(res));
+      });
     }).catch(err => {
       console.log(err);
       setError(true);
@@ -28337,13 +28359,11 @@ function OrdersResults() {
 
   (0, _react.useEffect)(() => {
     getWorkOrders();
-  }, []);
-
-  const filterResults = (input, id) => {
-    console.log(input);
-    const filteredArr = workOrder.filter(input => input.id !== id);
-    setWorkOrder(filteredArr);
-  };
+  }, []); // const filterResults = (input, id) => {
+  //   console.log(input);
+  //   const filteredArr = workOrder.filter((input) => input.id !== id);
+  //   setWorkOrder(filteredArr);
+  // };
 
   if (loading === true) return /*#__PURE__*/_react.default.createElement("h3", null, "Loading...");
   if (error) return /*#__PURE__*/_react.default.createElement("p", null, "Error fetching workers");
@@ -28381,7 +28401,7 @@ function OrdersResults() {
 
 var _default = OrdersResults;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","../../WORK_ORDER_KEY":"../WORK_ORDER_KEY.js"}],"App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","../../WORK_ORDER_KEY":"../WORK_ORDER_KEY.js","../../WORKER_API_KEY":"../WORKER_API_KEY.js"}],"App.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -28427,7 +28447,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50163" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49573" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

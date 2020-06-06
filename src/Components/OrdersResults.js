@@ -1,11 +1,13 @@
 import React, { useState, useEffect, Fragment } from "react";
 import WORK_ORDER_KEY from "../../WORK_ORDER_KEY";
+import WORKER_API_KEY from "../../WORKER_API_KEY";
 
 function OrdersResults() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [workOrder, setWorkOrder] = useState(null);
   const [workerID, setWorkerID] = useState([]);
+  const [workers, setWorkers] = useState([]);
   const [workerName, setWorkerName] = useState([]);
   const [workerCompany, setWorkerCompany] = useState([]);
   const [input, setInput] = useState("");
@@ -17,7 +19,17 @@ function OrdersResults() {
         setWorkOrder(response.orders);
         setError(false);
         setLoading(false);
-        console.log(response.orders);
+        const workerIds = response.orders.map(({ workerId }) => {
+          return workerId;
+        });
+        return workerIds;
+      })
+      .then((workerIds) => {
+        workerIds.map((item) => {
+          fetch(`${WORKER_API_KEY}${item}`)
+            .then((res) => res.json())
+            .then((res) => setWorkers(res));
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -30,11 +42,11 @@ function OrdersResults() {
     getWorkOrders();
   }, []);
 
-  const filterResults = (input, id) => {
-    console.log(input)
-    const filteredArr = workOrder.filter((input) => input.id !== id)
-    setWorkOrder(filteredArr)
-  };
+  // const filterResults = (input, id) => {
+  //   console.log(input);
+  //   const filteredArr = workOrder.filter((input) => input.id !== id);
+  //   setWorkOrder(filteredArr);
+  // };
 
   if (loading === true) return <h3>Loading...</h3>;
   if (error) return <p>Error fetching workers</p>;
@@ -71,7 +83,9 @@ function OrdersResults() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
           ></input>
-          <button className='btn' type="submit">Submit</button>
+          <button className="btn" type="submit">
+            Submit
+          </button>
         </form>
         <ul className="unorderedList">{mappedWorkOrders}</ul>
       </div>

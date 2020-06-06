@@ -1,3 +1,3 @@
-const WORKER_API_KEY = `https://www.hatchways.io/api/assessment/workers/${workerID}`
+const WORKER_API_KEY = `https://www.hatchways.io/api/assessment/workers/`;
 
-export default WORKER_API_KEY
+export default WORKER_API_KEY;
